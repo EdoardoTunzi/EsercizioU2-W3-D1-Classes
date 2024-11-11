@@ -41,15 +41,18 @@ Nella classe che utilizzerai per creare questi oggetti aggiungi anche un metodo 
 animali condividono lo stesso padrone.
 Crea, raccogliendo i dati dal form, diverse istanze della classe Pet e mostrane i dati in una lista sottostante.*/
 
+// assegno i nodi a variabili
 let petNameInput = document.getElementById("petName");
 let ownerNameInput = document.getElementById("ownerName");
 let animalSpecieInput = document.getElementById("species");
 let breedInput = document.getElementById("breed");
 let submitBtn = document.getElementById("submitBtn");
 let petList = document.getElementById("list");
-
+let petForm = document.querySelector("form");
+//creo un array per contenere gli oggetti pet che creo
 let petsArr = [];
 
+// creao classe Pet
 class Pet {
   constructor(petName, ownerName, species, breed) {
     this.petName = petName;
@@ -61,24 +64,29 @@ class Pet {
     return this.ownerName === anotherPet.ownerName;
   }
 }
-//funzione per aggiungere elementi alla ul sotto il form
+//funzione per aggiungere elementi alla ul sotto il form e mostrarli
 const showAnimalList = () => {
+  //la svuoto per farla rigenerare da zero ed evitare ripetizioni
   petList.innerHTML = "";
+  //ciclo l'array di Pets per generare gli elementi li e aggiungerli alla lista
   petsArr.forEach((pet) => {
     const newLi = document.createElement("li");
     newLi.innerText = `Pet name: ${pet.petName}, Owner: ${pet.ownerName}, Species: ${pet.species}, Breed: ${pet.breed}`;
     petList.appendChild(newLi);
   });
 };
-// click event sul Submit button
+// click event sul Submit button del form
 submitBtn.addEventListener("click", function (event) {
+  //evito il refresh
   event.preventDefault();
+  //creo un nuovo
   let newPet = new Pet(petNameInput.value, ownerNameInput.value, animalSpecieInput.value, breedInput.value);
   petsArr.push(newPet);
   showAnimalList();
-  //reset valori input
-  petNameInput.value = "";
+  //reset valori input con reset(), più veloce di specificare singolarmente il reset dei singoli valori.
+  petForm.reset();
+  /*petNameInput.value = "";
   ownerNameInput.value = "";
   breedInput.value = "";
-  animalSpecieInput.value = "";
+  animalSpecieInput.value = "";*/
 });
